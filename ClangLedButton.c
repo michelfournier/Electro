@@ -1,3 +1,5 @@
+// turn LED on/off with button
+
 #include <wiringPi.h>
 #include <stdio.h>
 

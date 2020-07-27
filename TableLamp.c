@@ -1,3 +1,5 @@
+// click and release to turn on LED, click and release to turn off LED
+
 #include <wiringPi.h>
 #include <stdio.h>
 
