@@ -26,18 +26,31 @@ void main (void) {
       pinMode(pins[i], OUTPUT);
   }
 
+  void (*func_list[6])(int, int);
+  func_list[0] = left_to_right;
+  func_list[1] = right_to_left;
+  func_list[2] = turn_on_even_prog;
+  func_list[3] = turn_on_odd_regress;
+  func_list[4] = mid_to_edge_and_back;
+  func_list[5] = random_leds;
+
   while(1){
 
     // add random selection of function
 
+    for(int x = 0; x < 6; x++){
+      func_list[x](ledCounts, *pins);
+    }
 
+
+/*
     left_to_right(ledCounts, pins);
     right_to_left(ledCounts, pins);
     turn_on_even_prog(ledCounts, pins);
     turn_on_odd_regress(ledCounts, pins);
     mid_to_edge_and_back(ledCounts, pins);
     random_leds(ledCounts, pins);
-
+*/
 
 
 }
@@ -47,6 +60,7 @@ void left_to_right(int leds, int *pins){
     digitalWrite(pins[i], LOW);
     delay(100);
     digitalWrite(pins[i], HIGH);
+    printf("Left to right");
   }
 }
 
@@ -55,6 +69,7 @@ void right_to_left(int leds, int *pins){
     digitalWrite(pins[i], LOW);
     delay(100);
     digitalWrite(pins[i], HIGH);
+    printf("Right to left");
   }
 }
 
@@ -64,6 +79,7 @@ void turn_on_even_prog(int leds, int *pins){
       digitalWrite(pins[i], LOW);
       delay(300);
       digitalWrite(pins[i], HIGH);
+      printf("Evens");
     }
 }
 }
@@ -73,6 +89,7 @@ void turn_on_odd_regress(int leds, int *pins){
       digitalWrite(pins[i], LOW);
       delay(300);
       digitalWrite(pins[i], HIGH);
+      printf("Odds");
     }
   }
 }
@@ -90,6 +107,7 @@ void mid_to_edge_and_back(int leds, int *pins){
     digitalWrite(pins[bob_right], HIGH);
     bob_left -= 1;
     bob_right += 1;
+    printf("mid to edge");
 
     if(bob_left == (leds - leds) && bob_right == (leds -1)){ // turns on led from edges to middle
       while(bob_left != (leds/2) && bob_right != ((leds/2)-1)){
@@ -100,6 +118,7 @@ void mid_to_edge_and_back(int leds, int *pins){
         delay(150);
         digitalWrite(pins[bob_left], HIGH);
         digitalWrite(pins[bob_right], HIGH);
+        printf("edge to mid");
         }
       }
     }
@@ -118,6 +137,7 @@ void random_leds(int leds, int *pins){
     delay(100);
     digitalWrite(pins[r], HIGH);
     jeb++;
+    printf("Random");
   }
 
 
