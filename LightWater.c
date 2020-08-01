@@ -1,5 +1,7 @@
 #include <wiringPi.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define ledCounts 10
 int pins[ledCounts] = {0,1,2,3,4,5,6,8,9,10}; //no 7 because those are wiringPi pin number and pin 7 "GPIO.7" isn't used
@@ -10,6 +12,7 @@ void right_to_left(int leds, int *pins);
 void turn_on_even_prog(int leds, int *pins);
 void turn_on_odd_regress(int leds, int *pins);
 void mid_to_edge_and_back(int leds, int *pins);
+void random_leds(int leds, int *pins);
 
 
 void main (void) {
@@ -25,11 +28,15 @@ void main (void) {
 
   while(1){
 
+    // add random selection of function
+
+
     left_to_right(ledCounts, pins);
     right_to_left(ledCounts, pins);
     turn_on_even_prog(ledCounts, pins);
     turn_on_odd_regress(ledCounts, pins);
     mid_to_edge_and_back(ledCounts, pins);
+    random_leds(ledCounts, pins);
 
 
 
@@ -99,5 +106,20 @@ void mid_to_edge_and_back(int leds, int *pins){
 
   bob_left = 0; //resets the bobs for the next loop
   bob_right = 0;
+
+}
+
+void random_leds(int leds, int *pins){
+  srand(time(NULL));
+  int jeb = 0;
+  while(jeb < leds) {
+    int r = rand() % 10;
+    digitalWrite(pins[r], LOW);
+    delay(100);
+    digitalWrite(pins[r], HIGH);
+    jeb++;
+  }
+
+
 
 }
