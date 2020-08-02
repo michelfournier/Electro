@@ -28,7 +28,9 @@ void main (void) {
 
  // creation of special type to create array of function pointers
   typedef void (*func_type) (int, int*);
+  //initialization of array of new type
   func_type func_list[6];
+  //assign functions to indexes of the array
   func_list[0] = left_to_right;
   func_list[1] = right_to_left;
   func_list[2] = turn_on_even_prog;
@@ -36,14 +38,17 @@ void main (void) {
   func_list[4] = mid_to_edge_and_back;
   func_list[5] = random_leds;
 
+  //address after all elements - address of first index
+  int func_list_len = *(&func_list + 1) - func_list;
+
   //Start loop
   while(1){
 
     // add random selection of functions
     srand(time(NULL));
     int jeb = 0;
-    while(jeb < 6) {
-      int random = rand() % 6;
+    while(jeb < func_list_len) {
+      int random = rand() % func_list_len;
       func_list[random](ledCounts, pins);
       jeb++;
     }
@@ -112,20 +117,20 @@ void mid_to_edge_and_back(int leds, int *pins){
 
     if(bob_left == (leds - leds) && bob_right == (leds -1)){ // turns on led from edges to middle
       while(bob_left != (leds/2) && bob_right != ((leds/2)-1)){
-        bob_left += 1;
-        bob_right -= 1;
         digitalWrite(pins[bob_left], LOW);
         digitalWrite(pins[bob_right], LOW);
         delay(150);
         digitalWrite(pins[bob_left], HIGH);
         digitalWrite(pins[bob_right], HIGH);
+        bob_left += 1;
+        bob_right -= 1;
         printf("edge to mid\n");
         printf("%d %d\n", bob_left, bob_right);
         }
       }
     }
-
-  bob_left = 0; //resets the bobs for the next loop
+  //resets the bobs for the next loop
+  bob_left = 0;
   bob_right = 0;
 
 }
@@ -134,7 +139,7 @@ void random_leds(int leds, int *pins){
   srand(time(NULL));
   int jeb = 0;
   while(jeb < leds) {
-    int r = rand() % 10;
+    int r = rand() % leds;
     digitalWrite(pins[r], LOW);
     delay(100);
     digitalWrite(pins[r], HIGH);
