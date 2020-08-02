@@ -36,6 +36,7 @@ void main (void) {
   func_list[4] = mid_to_edge_and_back;
   func_list[5] = random_leds;
 
+  //Start loop
   while(1){
 
     // add random selection of functions
