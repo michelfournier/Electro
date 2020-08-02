@@ -14,6 +14,8 @@ void turn_on_odd_regress(int leds, int *pins);
 void mid_to_edge_and_back(int leds, int *pins);
 void random_leds(int leds, int *pins);
 
+void master_selector(*int arr, int leds, *int pins);
+
 
 void main (void) {
 
@@ -44,15 +46,12 @@ void main (void) {
   //Start loop
   while(1){
 
-    // add random selection of functions
-    srand(time(NULL));
-    int jeb = 0;
-    while(jeb < func_list_len) {
-      int random = rand() % func_list_len;
-      func_list[random](ledCounts, pins);
-      jeb++;
-    }
+    master_selector(func_list, ledCounts, pins);
+
   }
+
+
+
 }
 
 // initialization of functions
@@ -148,3 +147,18 @@ void random_leds(int leds, int *pins){
     printf("%d \n", r);
   }
 }
+
+void master_selector(*int arr, int leds, *int pins){
+  srand(time(NULL));
+  int jeb = 0;
+  //address after all elements - address of first index
+  int func_list_len = *(&arr + 1) - arr;
+
+  while(jeb < func_list_len) {
+    int random = rand() % func_list_len;
+    arr[random](leds, pins);
+    jeb++;
+}
+
+
+//end
