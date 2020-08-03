@@ -14,7 +14,7 @@ void turn_on_odd_regress(int leds, int *pins);
 void mid_to_edge_and_back(int leds, int *pins);
 void random_leds(int leds, int *pins);
 
-void master_selector(*int arr, int leds, *int pins);
+void master_selector(int leds, int *pins, *func f1, *func f2, *func f3, *func f4, *func f5, *func f6);
 
 
 void main (void) {
@@ -28,25 +28,11 @@ void main (void) {
       pinMode(pins[i], OUTPUT);
   }
 
- // creation of special type to create array of function pointers
-  typedef void (*func_type) (int, int*);
-  //initialization of array of new type
-  func_type func_list[6];
-  //assign functions to indexes of the array
-  func_list[0] = left_to_right;
-  func_list[1] = right_to_left;
-  func_list[2] = turn_on_even_prog;
-  func_list[3] = turn_on_odd_regress;
-  func_list[4] = mid_to_edge_and_back;
-  func_list[5] = random_leds;
-
-  //address after all elements - address of first index
-  int func_list_len = *(&func_list + 1) - func_list;
 
   //Start loop
   while(1){
 
-    master_selector(func_list, ledCounts, pins);
+    master_selector(ledCounts, pins, &left_to_right, &right_to_left, &turn_on_even_prog, &turn_on_odd_regress, &mid_to_edge_and_back, &random_leds);
 
   }
 
@@ -148,14 +134,13 @@ void random_leds(int leds, int *pins){
   }
 }
 
-void master_selector(*int arr, int leds, *int pins){
+void master_selector(int leds, int *pins, *func f1, *func f2, *func f3, *func f4, *func f5, *func f6){
   srand(time(NULL));
   int jeb = 0;
-  //address after all elements - address of first index
-  int func_list_len = *(&arr + 1) - arr;
+  func arr[6] = {f1, f2, f3, f4, f5, f6};
 
-  while(jeb < func_list_len) {
-    int random = rand() % func_list_len;
+  while(jeb < 6) {
+    int random = rand() % 6;
     arr[random](leds, pins);
     jeb++;
 }
