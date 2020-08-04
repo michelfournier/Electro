@@ -88,7 +88,7 @@ void turn_on_even_prog(int leds, int *pins){
 }
 }
 void turn_on_odd_regress(int leds, int *pins){
-  for(int i=ledCounts-1;i >-1;i--){ //turn on odd number pin indexes
+  for(int i=leds-1;i >-1;i--){ //turn on odd number pin indexes
     if(pins[i] % 2 != 0) {
       digitalWrite(pins[i], LOW);
       delay(300);
@@ -110,10 +110,11 @@ void mid_to_edge_and_back(int leds, int *pins){
     delay(150);
     digitalWrite(pins[bob_left], HIGH);
     digitalWrite(pins[bob_right], HIGH);
-    bob_left -= 1;
-    bob_right += 1;
     printf("mid to edge\n");
     printf("%d %d\n", bob_left, bob_right);
+    bob_left -= 1;
+    bob_right += 1;
+
 
     if(bob_left == (leds - leds) && bob_right == (leds -1)){ // turns on led from edges to middle
       while(bob_left != (leds/2) && bob_right != ((leds/2)-1)){
@@ -122,10 +123,11 @@ void mid_to_edge_and_back(int leds, int *pins){
         delay(150);
         digitalWrite(pins[bob_left], HIGH);
         digitalWrite(pins[bob_right], HIGH);
-        bob_left += 1;
-        bob_right -= 1;
         printf("edge to mid\n");
         printf("%d %d\n", bob_left, bob_right);
+        bob_left += 1;
+        bob_right -= 1;
+
         }
       }
     }
