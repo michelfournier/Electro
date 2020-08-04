@@ -6,6 +6,7 @@
 #define ledCounts 10
 int pins[ledCounts] = {0,1,2,3,4,5,6,8,9,10}; //no 7 because those are wiringPi pin number and pin 7 "GPIO.7" isn't used
 
+
 // declaration of functions
 void left_to_right(int leds, int *pins);
 void right_to_left(int leds, int *pins);
@@ -13,8 +14,6 @@ void turn_on_even_prog(int leds, int *pins);
 void turn_on_odd_regress(int leds, int *pins);
 void mid_to_edge_and_back(int leds, int *pins);
 void random_leds(int leds, int *pins);
-
-void master_selector(int leds, int *pins, *func f1, *func f2, *func f3, *func f4, *func f5, *func f6);
 
 
 void main (void) {
@@ -28,16 +27,33 @@ void main (void) {
       pinMode(pins[i], OUTPUT);
   }
 
+ // creation of special type to create array of function pointers
+  typedef void (*func_type) (int, int*);
+  //initialization of array of new type
+  func_type func_list[6];
+  //assign functions to indexes of the array
+  func_list[0] = left_to_right;
+  func_list[1] = right_to_left;
+  func_list[2] = turn_on_even_prog;
+  func_list[3] = turn_on_odd_regress;
+  func_list[4] = mid_to_edge_and_back;
+  func_list[5] = random_leds;
+
+  //address after all elements - address of first index
+  int func_list_len = *(&func_list + 1) - func_list;
 
   //Start loop
   while(1){
 
-    master_selector(ledCounts, pins, &left_to_right, &right_to_left, &turn_on_even_prog, &turn_on_odd_regress, &mid_to_edge_and_back, &random_leds);
-
+    // add random selection of functions
+    srand(time(NULL));
+    int jeb = 0;
+    while(jeb < func_list_len) {
+      int random = rand() % func_list_len;
+      func_list[random](ledCounts, pins);
+      jeb++;
+    }
   }
-
-
-
 }
 
 // initialization of functions
@@ -62,24 +78,30 @@ void right_to_left(int leds, int *pins){
 }
 
 void turn_on_even_prog(int leds, int *pins){
+
+  int bob_bricoleur[ledCounts] = {0,1,2,3,4,5,6,7,8,9}; //new array needed for Odd/even functions
+
   for(int i=0;i<leds;i++){ //turn on even number pin indexes
-    if(pins[i] % 2 == 0) {
+    if(bob_bricoleur[i] % 2 == 0) {
       digitalWrite(pins[i], LOW);
       delay(300);
       digitalWrite(pins[i], HIGH);
       printf("Evens\n");
-      printf("%d\n", i);
+      printf("%d\n", bob_bricoleur[i]);
     }
 }
 }
 void turn_on_odd_regress(int leds, int *pins){
-  for(int i=ledCounts-1;i >-1;i--){ //turn on odd number pin indexes
-    if(pins[i] % 2 != 0) {
+
+  int bob_bricoleur[ledCounts] = {0,1,2,3,4,5,6,7,8,9}; //new array needed for Odd/even functions
+
+  for(int i=leds-1;i >-1;i--){ //turn on odd number pin indexes
+    if(bob_bricoleur[i] % 2 != 0) {
       digitalWrite(pins[i], LOW);
       delay(300);
       digitalWrite(pins[i], HIGH);
       printf("Odds\n");
-      printf("%d\n", i);
+      printf("%d\n", bob_bricoleur[i]);
     }
   }
 }
@@ -95,10 +117,11 @@ void mid_to_edge_and_back(int leds, int *pins){
     delay(150);
     digitalWrite(pins[bob_left], HIGH);
     digitalWrite(pins[bob_right], HIGH);
-    bob_left -= 1;
-    bob_right += 1;
     printf("mid to edge\n");
     printf("%d %d\n", bob_left, bob_right);
+    bob_left -= 1;
+    bob_right += 1;
+
 
     if(bob_left == (leds - leds) && bob_right == (leds -1)){ // turns on led from edges to middle
       while(bob_left != (leds/2) && bob_right != ((leds/2)-1)){
@@ -107,10 +130,11 @@ void mid_to_edge_and_back(int leds, int *pins){
         delay(150);
         digitalWrite(pins[bob_left], HIGH);
         digitalWrite(pins[bob_right], HIGH);
-        bob_left += 1;
-        bob_right -= 1;
         printf("edge to mid\n");
         printf("%d %d\n", bob_left, bob_right);
+        bob_left += 1;
+        bob_right -= 1;
+
         }
       }
     }
@@ -133,17 +157,3 @@ void random_leds(int leds, int *pins){
     printf("%d \n", r);
   }
 }
-
-void master_selector(int leds, int *pins, *func f1, *func f2, *func f3, *func f4, *func f5, *func f6){
-  srand(time(NULL));
-  int jeb = 0;
-  func arr[6] = {f1, f2, f3, f4, f5, f6};
-
-  while(jeb < 6) {
-    int random = rand() % 6;
-    arr[random](leds, pins);
-    jeb++;
-}
-
-
-//end
