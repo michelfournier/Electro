@@ -6,6 +6,7 @@
 #define ledCounts 10
 int pins[ledCounts] = {0,1,2,3,4,5,6,8,9,10}; //no 7 because those are wiringPi pin number and pin 7 "GPIO.7" isn't used
 
+
 // declaration of functions
 void left_to_right(int leds, int *pins);
 void right_to_left(int leds, int *pins);
@@ -74,24 +75,35 @@ void right_to_left(int leds, int *pins){
 }
 
 void turn_on_even_prog(int leds, int *pins){
+
+  int bob_bricoleur[ledCounts] = {0,1,2,3,4,5,6,7,8,9}; //new array needed for Odd/even functions
+
   for(int i=0;i<leds;i++){ //turn on even number pin indexes
-    if(pins[i] % 2 == 0) {
+    if(bob_bricoleur[i] % 2 == 0) {
       digitalWrite(pins[i], LOW);
       delay(300);
       digitalWrite(pins[i], HIGH);
       printf("Evens\n");
-      printf("%d\n", i);
+      printf("%d\n", bob_bricoleur[i]);
     }
 }
 }
 void turn_on_odd_regress(int leds, int *pins){
-  for(int i=ledCounts-1;i >-1;i--){ //turn on odd number pin indexes
+<<<<<<< HEAD
+  for(int i=leds-1;i >-1;i--){ //turn on odd number pin indexes
     if(pins[i] % 2 != 0) {
+=======
+
+  int bob_bricoleur[ledCounts] = {0,1,2,3,4,5,6,7,8,9}; //new array needed for Odd/even functions
+
+  for(int i=leds-1;i >-1;i--){ //turn on odd number pin indexes
+    if(bob_bricoleur[i] % 2 != 0) {
+>>>>>>> test_glob_func
       digitalWrite(pins[i], LOW);
       delay(300);
       digitalWrite(pins[i], HIGH);
       printf("Odds\n");
-      printf("%d\n", i);
+      printf("%d\n", bob_bricoleur[i]);
     }
   }
 }
@@ -107,10 +119,11 @@ void mid_to_edge_and_back(int leds, int *pins){
     delay(150);
     digitalWrite(pins[bob_left], HIGH);
     digitalWrite(pins[bob_right], HIGH);
-    bob_left -= 1;
-    bob_right += 1;
     printf("mid to edge\n");
     printf("%d %d\n", bob_left, bob_right);
+    bob_left -= 1;
+    bob_right += 1;
+
 
     if(bob_left == (leds - leds) && bob_right == (leds -1)){ // turns on led from edges to middle
       while(bob_left != (leds/2) && bob_right != ((leds/2)-1)){
@@ -119,10 +132,11 @@ void mid_to_edge_and_back(int leds, int *pins){
         delay(150);
         digitalWrite(pins[bob_left], HIGH);
         digitalWrite(pins[bob_right], HIGH);
-        bob_left += 1;
-        bob_right -= 1;
         printf("edge to mid\n");
         printf("%d %d\n", bob_left, bob_right);
+        bob_left += 1;
+        bob_right -= 1;
+
         }
       }
     }
