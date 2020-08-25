@@ -75,6 +75,21 @@ int main() {
     distance = getSonar();
     printf("The distance is : %2.f cm\n", distance);
     delay(100);
+    if(distance <= 7.0) {
+      printf("STOP!!!\n");
+    }
+    else if(distance > 7.1 && distance < 25) {
+      printf("Slow-med speed\n");
+    }else if(distance > 25.1 && distance < 75){
+      printf("Med speed\n");
+    }else {
+      printf("full speed ahead!!\n");
+    }
+
+
+
+
+
   }
 
   return 1;
