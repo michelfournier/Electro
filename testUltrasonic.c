@@ -11,6 +11,8 @@
 #define timeOut MAX_DISTANCE*60 // is not signal bounced back after a while (past 220 cm), times out
 
 // get pulse time of pin for more reference https://www.arduino.cc/reference/en/language/functions/advanced-io/pulsein/
+// pulseIn doesn't work with rasb pi it seems, had to get that nice piece of code from joan here https://www.raspberrypi.org/forums/viewtopic.php?p=277768, thanks joan!
+
 int pulseIn(int pin, int level, int timeout)
 {
    struct timeval tn, t0, t1;
