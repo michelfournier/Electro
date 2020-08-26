@@ -75,7 +75,7 @@ int main() {
 
   while(1) {
     distance = getSonar();
-    printf("The distance is : %2.f cm\n", distance);
+    printf("The distance is : %.2f cm\n", distance);
     delay(100);
     if(distance <= 7.0) {
       printf("STOP!!!\n");

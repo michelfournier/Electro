@@ -30,7 +30,7 @@ int main(void){
   while(1){
     int adcValue = adc->analogRead(0); // read analog value of A0 pin
     float voltage = (float)adcValue / 255.0 * 3.3; // calculate voltage
-    printf("ADC Value : %d, \tVoltage : %2.f\n", adcValue, voltage);
+    printf("ADC Value : %d, \tVoltage : %.2f\n", adcValue, voltage);
     delay(100);
   }
 
