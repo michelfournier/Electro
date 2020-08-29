@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 #define motorPin1 2  // sends high or low, basically polarity switch, if HIGH, positive, if low, negative and off to GND
-#define motorPin2 0  // which determiens the rotation side, clockwise or ccwise 
+#define motorPin2 0  // which determines the rotation side, clockwise or ccwise
 #define enablePin 3 // for PWM wave
 
 ADCDevice *adc; // define an ADC Device class object
